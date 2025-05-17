@@ -164,7 +164,7 @@ class TradingContext(UserDict):
             A trading context with all the variables provided in the yaml file.
         """
         with open(path, "rb") as fp:
-            config = yaml.load(fp, Loader=yaml.FullLoader)
+            config = yaml.load(fp, Loader=yaml.SafeLoader)
         return TradingContext(config)
 
 
