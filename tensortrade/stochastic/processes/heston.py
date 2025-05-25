@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License
 
-import random
 import numpy as np
 import pandas as pd
 import scipy as sp
 
 from tensortrade.stochastic.processes.gbm import geometric_brownian_motion_log_returns
 from tensortrade.stochastic.utils import ModelParameters, generate, convert_to_prices
+import secrets
 
 
 # =============================================================================
@@ -51,7 +51,7 @@ def jump_diffusion_process(params: 'ModelParameters') -> 'np.array':
         s_n += small_lamda * np.log(np.random.uniform(0, 1))
         for j in range(params.all_time):
             if time * params.all_delta <= s_n * params.all_delta <= (j + 1) * params.all_delta:
-                jump_sizes[j] += random.normalvariate(params.jumps_mu, params.jumps_sigma)
+                jump_sizes[j] += secrets.SystemRandom().normalvariate(params.jumps_mu, params.jumps_sigma)
                 break
         time += 1
     return jump_sizes
@@ -153,7 +153,7 @@ def heston_construct_correlated_path(params: 'ModelParameters',
     brownian_motion_two = []
     for i in range(params.all_time - 1):
         term_one = params.cir_rho * brownian_motion_one[i]
-        term_two = np.sqrt(1 - pow(params.cir_rho, 2)) * random.normalvariate(0, sqrt_delta)
+        term_two = np.sqrt(1 - pow(params.cir_rho, 2)) * secrets.SystemRandom().normalvariate(0, sqrt_delta)
         brownian_motion_two.append(term_one + term_two)
     return np.array(brownian_motion_one), np.array(brownian_motion_two)
 
@@ -221,7 +221,7 @@ def get_correlated_geometric_brownian_motions(params: 'ModelParameters',
     for i in range(params.all_time):
         uncorrelated_random_numbers = []
         for j in range(n):
-            uncorrelated_random_numbers.append(random.normalvariate(0, sqrt_delta_sigma))
+            uncorrelated_random_numbers.append(secrets.SystemRandom().normalvariate(0, sqrt_delta_sigma))
         uncorrelated_paths.append(np.array(uncorrelated_random_numbers))
     uncorrelated_matrix = np.asmatrix(uncorrelated_paths)
     correlated_matrix = uncorrelated_matrix * decomposition

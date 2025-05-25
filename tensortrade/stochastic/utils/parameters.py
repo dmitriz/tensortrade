@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License
 
-from random import uniform
+import secrets
 
 
 class ModelParameters:
@@ -156,17 +156,17 @@ def random(base_price: float, t_gen: int, delta: float) -> 'ModelParameters':
         all_r0=0.5,
         all_time=t_gen,
         all_delta=delta,
-        all_sigma=uniform(0.1, 0.8),
-        gbm_mu=uniform(-0.3, 0.6),
-        jumps_lambda=uniform(0.0071, 0.6),
-        jumps_sigma=uniform(-0.03, 0.04),
-        jumps_mu=uniform(-0.2, 0.2),
+        all_sigma=secrets.SystemRandom().uniform(0.1, 0.8),
+        gbm_mu=secrets.SystemRandom().uniform(-0.3, 0.6),
+        jumps_lambda=secrets.SystemRandom().uniform(0.0071, 0.6),
+        jumps_sigma=secrets.SystemRandom().uniform(-0.03, 0.04),
+        jumps_mu=secrets.SystemRandom().uniform(-0.2, 0.2),
         cir_a=3.0,
         cir_mu=0.5,
         cir_rho=0.5,
         ou_a=3.0,
         ou_mu=0.5,
-        heston_a=uniform(1, 5),
-        heston_mu=uniform(0.156, 0.693),
+        heston_a=secrets.SystemRandom().uniform(1, 5),
+        heston_mu=secrets.SystemRandom().uniform(0.156, 0.693),
         heston_vol0=0.06125
     )

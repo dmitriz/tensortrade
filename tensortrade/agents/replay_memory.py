@@ -14,10 +14,10 @@
 
 
 from deprecated import deprecated
-import random
 
 from collections import namedtuple
 from typing import List
+import secrets
 
 
 Transition = namedtuple('Transition', ['state', 'action', 'reward', 'done'])
@@ -42,7 +42,7 @@ class ReplayMemory(object):
         self.position = (self.position + 1) % self.capacity
 
     def sample(self, batch_size) -> List[namedtuple]:
-        return random.sample(self.memory, batch_size)
+        return secrets.SystemRandom().sample(self.memory, batch_size)
 
     def head(self, batch_size) -> List[namedtuple]:
         return self.memory[:batch_size]

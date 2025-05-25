@@ -16,7 +16,6 @@ import uuid
 import logging
 
 from typing import Dict, Any, Tuple
-from random import randint
 
 import gymnasium
 import numpy as np
@@ -30,6 +29,7 @@ from tensortrade.env.generic import (
     Informer,
     Renderer
 )
+import secrets
 
 
 class TradingEnv(gymnasium.Env, TimeIndexed):
@@ -146,7 +146,7 @@ class TradingEnv(gymnasium.Env, TimeIndexed):
         """
         if self.random_start_pct > 0.00:
             size = len(self.observer.feed.process[-1].inputs[0].iterable)
-            random_start = randint(0, int(size * self.random_start_pct))
+            random_start = secrets.SystemRandom().randint(0, int(size * self.random_start_pct))
         else:
             random_start = 0
 

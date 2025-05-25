@@ -7,13 +7,13 @@ import numpy as np
 import pandas as pd
 
 from gymnasium.spaces import Box, Space
-from random import randrange
 
 
 from tensortrade.feed.core import Stream, NameSpace, DataFeed
 from tensortrade.oms.wallets import Wallet
 from tensortrade.env.generic import Observer
 from collections import OrderedDict
+import secrets
 
 
 def _create_wallet_source(wallet: 'Wallet', include_worth: bool = True) -> 'List[Stream[float]]':
@@ -455,7 +455,7 @@ class IntradayObserver(Observer):
             self.feed.reset()
             if self.randomize:
                 episode_num = 0
-                while episode_num < randrange(self.num_episodes):
+                while episode_num < secrets.SystemRandom().randrange(self.num_episodes):
                     ts = self.feed.next()["external"]["timestamp"]
                     if ts.time() == self.stop_time:
                         episode_num += 1

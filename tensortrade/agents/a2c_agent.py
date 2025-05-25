@@ -19,7 +19,6 @@ References:
 """
 
 from deprecated import deprecated
-import random
 import numpy as np
 import tensorflow as tf
 
@@ -27,6 +26,7 @@ from collections import namedtuple
 
 from tensortrade.agents import Agent, ReplayMemory
 from datetime import datetime
+import secrets
 
 A2CTransition = namedtuple('A2CTransition', ['state', 'action', 'reward', 'done', 'value'])
 
@@ -106,7 +106,7 @@ class A2CAgent(Agent):
     def get_action(self, state: np.ndarray, **kwargs) -> int:
         threshold: float = kwargs.get('threshold', 0)
 
-        rand = random.random()
+        rand = secrets.SystemRandom().random()
 
         if rand < threshold:
             return np.random.choice(self.n_actions)
